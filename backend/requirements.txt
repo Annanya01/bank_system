@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+pydantic[email]
+passlib[bcrypt]
+requests
+python-jose
+jinja2
+python-multipart
+fastapi_jwt_auth
+
+

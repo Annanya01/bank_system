@@ -1,0 +1,50 @@
+<!-- inheriting base.html -->
+{% extends "shared/base.html" %}
+
+
+{% block title %} 
+  <title>E-Banking</title>
+{% endblock %} 
+
+{% block content %} 
+  <div class="container justify-center">
+    <h1 class="display-4">Sign up
+    </h1>
+
+    {% for error in errors %}
+      <div class = "alert alert-danger" role = "alert">
+        {{error}}
+      </div>
+    {% endfor%}
+  
+
+    <form class="row g-3 needs-validation" method = "POST">
+
+        <div class="col-md-4">
+          <label for="username" class="form-label">Full Name</label>
+          <input type="text" required class="form-control" name = "username"  required>  
+        </div>
+
+        <div class="col-md-4">
+            <label for="username" class="form-label">User name</label>
+            <input type="text" required class="form-control" name = "username"  required>  
+        </div>
+
+        <div class="col-md-4">
+            <label for="username" class="form-label">Email</label>
+            <input type="email" required class="form-control" name = "username"  required>  
+        </div>
+
+        <div class="col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" required class="form-control" name = "password" required>
+        </div>
+      
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+      </form>
+  </div>
+
+  
+{% endblock %} 

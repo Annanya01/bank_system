@@ -9,6 +9,9 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash,check_password_hash
 
+from fastapi_jwt_auth import AuthJWT
+
+
 import random
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -20,11 +23,8 @@ router = APIRouter()
 #     user_to_update.token= access_token
 #     db.commit()
 
-@router.get('/')
-def hello():
-    return {'message' : 'hola'}
-
-@router.post('/users', status_code = 201, response_model=ShowUser)
+# USER REGISTRATION
+@router.post('/create_user', status_code = 201, response_model=ShowUser)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
         account_no = random.randint(10000,99999)
@@ -45,14 +45,23 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     except IntegrityError :
         return {"msg": "email already exists"}
 
+
 @router.get('/users/all', response_model= List[ShowUser])
 def get_all_users(db:Session=Depends(get_db)):
     user = db.query(User).all()
     return user
 
-@router.get('/users/{id}', response_model=ShowUser)
-def get_user_by_id(id:int, db:Session=Depends(get_db)):
+@router.get('/users/', response_model=ShowUser)
+def get_user_by_id(id:int, db:Session=Depends(get_db) , Authorize:AuthJWT=Depends()):
+
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(status_code=401,detail="Invalid Token")
+    current_user =Authorize.get_jwt_subject()
+    print(current_user)
+
     user = db.query(User).filter(User.id == id).first()
     if not user:
-        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, details = f"item {id} does not exists")
+        raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, details = f"item does not exists")
     return user

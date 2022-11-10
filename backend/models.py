@@ -22,3 +22,13 @@ class Account(Base):
     user_id =  Column(Integer, ForeignKey("users.id"))
 
     admin = relationship("User",back_populates="accounts")
+
+class Transaction(Base):
+    __tablename__ = "transaction"
+    id = Column(Integer, primary_key = True, index = True)
+    sender_id = Column(Integer, ForeignKey("accounts.id"))
+    receiver_id = Column(Integer, ForeignKey("accounts.id"), nullable = True)
+    transfer_amount = Column(Float, nullable = False)
+
+
+

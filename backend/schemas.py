@@ -18,6 +18,13 @@ class ShowUser(BaseModel):
     class Config:
         orm_mode = True
 
+class TransferDetails(BaseModel):
+    sender_id : int
+    receiver_id : int
+    transfer_amount: float
+
+    class Config:
+        orm_mode = True
 
 class ShowAccount(BaseModel):
     user_id : int
@@ -28,18 +35,21 @@ class ShowAccount(BaseModel):
         orm_mode = True
 
 class Settings(BaseModel):
-    authjwt_secret_key:str='ea89de0d23fa63864faa983dd60c616769f5b165c255e8fe9593d845e2891cec'
+    authjwt_secret_key:str='beb6e688aca5a8bc26c9e34a850b78bc682a2eba8ca8157e905c88dc0ec3d002'
 
 class LoginModel(BaseModel):
     email:str
     password:str
 
-class Deposite(BaseModel):
+class Deposit(BaseModel):
     balance: float
 
 class Transaction(BaseModel):
-    user_id : int
+    account_no : str
     balance : float
 
 
+
+class ResponseModel(BaseModel):
+    detail: str
 

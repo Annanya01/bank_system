@@ -9,5 +9,5 @@ python-jose
 jinja2
 python-multipart
 fastapi_jwt_auth
-
+Werkzeug
 
